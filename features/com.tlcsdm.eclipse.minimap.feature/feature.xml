@@ -7,8 +7,7 @@
       plugin="com.tlcsdm.eclipse.minimap">
 
    <description>
-      This plug-in is a plugin for Eclipse, it opened the files selected in “Package Explorer” and “Navigator” in the system file browser.
-Now Support Eclipse 2024-06 and later, Mac OS X, Linux (with nautilus) and Windows.
+      Eclipse plugin provides awesome way to navigate your source code.
    </description>
 
    <copyright>
@@ -297,7 +296,7 @@ version(s), and exceptions or additional permissions here}.&quot;
 
    <url>
       <update label="%updateSiteName" url="https://raw.githubusercontent.com/tlcsdm/eclipse-minimap/master/update_site/"/>
-      <discovery label="Open Explorer Update Site" url="https://raw.githubusercontent.com/tlcsdm/eclipse-minimap/master/update_site/"/>
+      <discovery label="Minimap Update Site" url="https://raw.githubusercontent.com/tlcsdm/eclipse-minimap/master/update_site/"/>
    </url>
 
    <requires>
