@@ -14,13 +14,13 @@ import org.eclipse.ui.part.Page;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 
-public class MultiPageCrazyPage extends Page implements IPageChangedListener {
+public class MultiPage extends Page implements IPageChangedListener {
 	private PageBook pageBook;
 	private MultiPageEditorPart multiPageEditor;
 	private Map<Object, Control> canvasMap = new HashMap<>();
 	private Label fallBack;
 
-	public MultiPageCrazyPage(MultiPageEditorPart multiPageEditor) {
+	public MultiPage(MultiPageEditorPart multiPageEditor) {
 		this.multiPageEditor = multiPageEditor;
 		multiPageEditor.addPageChangedListener(this);
 	}

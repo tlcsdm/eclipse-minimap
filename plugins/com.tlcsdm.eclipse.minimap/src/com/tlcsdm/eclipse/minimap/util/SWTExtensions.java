@@ -143,30 +143,8 @@ public class SWTExtensions {
 	 * @param resources {@link Resource}s to dispose in next event loop.
 	 * @return Given {@link Resource}s.
 	 */
-	public <T extends Resource> T[] autoDispose(T... resources) {
-		for (T r : resources) {
-			autoDispose(r);
-		}
-		return resources;
-	}
-
-	/**
-	 * @param resource
-	 * @return
-	 * @deprecated use {@link #autoDispose(Resource)} instead.
-	 */
-	public <T extends Resource> T autoRelease(T resource) {
-		autoDispose(resource);
-		return resource;
-	}
-
-	/**
-	 * 
-	 * @param resources
-	 * @return
-	 * @deprecated use {@link #autoDispose(Resource...)} instead.
-	 */
-	public <T extends Resource> T[] autoRelease(T... resources) {
+	@SafeVarargs
+	public final <T extends Resource> T[] autoDispose(T... resources) {
 		for (T r : resources) {
 			autoDispose(r);
 		}
@@ -1398,7 +1376,8 @@ public class SWTExtensions {
 		}
 	}
 
-	public <T extends Resource> void safeDispose(T... resource) {
+	@SafeVarargs
+	public final <T extends Resource> void safeDispose(T... resource) {
 		for (Resource r : resource) {
 			safeDispose(r);
 		}
@@ -1408,7 +1387,8 @@ public class SWTExtensions {
 	 * @since 2.2
 	 * @param widgets
 	 */
-	public <W extends Widget> void safeDispose(W... widgets) {
+	@SafeVarargs
+	public final <W extends Widget> void safeDispose(W... widgets) {
 		for (Widget w : widgets) {
 			safeDispose(w);
 		}

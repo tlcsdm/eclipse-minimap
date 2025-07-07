@@ -55,7 +55,6 @@ public class MinimapDragger {
 		});
 	}
 
-	@SuppressWarnings("deprecation")
 	public Cursor getGrabCursor() {
 		grabCursor = new Cursor(canvas.getDisplay(), Activator.getImageDescriptor("icons/grab.gif").getImageData(100),
 				8, 8);
@@ -68,7 +67,6 @@ public class MinimapDragger {
 		return grabCursor;
 	}
 
-	@SuppressWarnings("deprecation")
 	public Cursor getHandCursor() {
 		if (handCursor == null || handCursor.isDisposed()) {
 			handCursor = new Cursor(canvas.getDisplay(),
@@ -112,6 +110,9 @@ public class MinimapDragger {
 		Point location = scaledPoint(event);
 		if (state == STATE_NONE) {
 			Rectangle selection = canvas.getSelection();
+			if (selection == null) {
+				return;
+			}
 			if (swt.contains(selection, location)) {
 				offsetSelection = swt.getCopy(selection);
 				offsetLocation = location;
@@ -132,6 +133,9 @@ public class MinimapDragger {
 	private void onMouseMove(Event event) {
 		Point location = scaledPoint(event);
 		Rectangle selection = canvas.getSelection();
+		if (selection == null) {
+			return;
+		}
 
 		if (state == STATE_DRAGGING) {
 			Point delta = swt.getDifference(offsetLocation, location);

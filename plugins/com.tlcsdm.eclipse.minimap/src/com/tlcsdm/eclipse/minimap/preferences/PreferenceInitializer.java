@@ -14,7 +14,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		store.setDefault(MinimapConstants.INVERT_SWIPE_GESTURE, true);
 		store.setDefault(MinimapConstants.FOG_COLOR, new HSB().serialize());
-		store.setDefault(MinimapConstants.FOG_TRANSPARENCY, 10);
+		store.setDefault(MinimapConstants.FOG_TRANSPARENCY, 20);
 	}
 
 }

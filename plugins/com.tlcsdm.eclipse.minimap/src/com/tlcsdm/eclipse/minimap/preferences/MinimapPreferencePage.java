@@ -3,15 +3,28 @@ package com.tlcsdm.eclipse.minimap.preferences;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.ColorDialog;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Scale;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import com.tlcsdm.eclipse.minimap.Activator;
+import com.tlcsdm.eclipse.minimap.util.HSB;
+import com.tlcsdm.eclipse.minimap.util.MinimapConstants;
 
 public class MinimapPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 	public static String ID = "com.tlcsdm.eclipse.minimap.preferences.minimapPreferencePage";
+	private Button fogColorWell;
+	private Scale fogTransparencyScale;
 
 	private IPreferenceStore store() {
 		return Activator.getDefault().getPreferenceStore();
@@ -24,80 +37,60 @@ public class MinimapPreferencePage extends PreferencePage implements IWorkbenchP
 
 	@Override
 	protected Control createContents(Composite parent) {
-		Composite composite = new Composite(parent, SWT.NONE);
-//		layout = newGridLayout[
-//		       				numColumns = 3
-//		       			]
-//		       			
-//		       			newLabel[
-//		       				text = "Fog Color:"
-//		       			]
-//		       			
-//		       			fogColorWell = newColorWell[
-//		       				selection = HSB::deserialize(store.getString(FOG_COLOR))
-//		       			]
-//		       			
-//		       			newPushButton[
-//		       				text = "change"
-//		       				onClick = [
-//		       					fogColorWell.showColorPicker()
-//		       				]
-//		       			]
-//		       			
-//		       			newLabel[
-//		       				text = "Fog Transparency"
-//		       			]
-//		       			
-//		       			fogTransparencyScale = newScale[
-//		       				minimum = 0
-//		       				maximum = 255
-//		       				selection = 0
-//		       				pageIncrement = 17
-//		       				
-//		       				selection = store.getInt(FOG_TRANSPARENCY)
-//		       				
-//		       				layoutData = FILL_HORIZONTAL[
-//		       					horizontalSpan = 2
-//		       				]
-//		       			]
-		return composite;
+		Composite container = new Composite(parent, SWT.NONE);
+		GridLayout layout = new GridLayout(3, false);
+		container.setLayout(layout);
+
+		Label colorLabel = new Label(container, SWT.NONE);
+		colorLabel.setText("Fog Color:");
+
+		fogColorWell = new Button(container, SWT.NONE);
+		fogColorWell.setEnabled(false);
+		fogColorWell.setBackground(new Color(HSB.deserialize(store().getString(MinimapConstants.FOG_COLOR)).toRGB()));
+
+		Button changeButton = new Button(container, SWT.PUSH);
+		changeButton.setText("change");
+		changeButton.addListener(SWT.Selection, e -> showColorPicker());
+
+		Label transparencyLabel = new Label(container, SWT.NONE);
+		transparencyLabel.setText("Fog Transparency");
+
+		fogTransparencyScale = new Scale(container, SWT.HORIZONTAL);
+		fogTransparencyScale.setMinimum(0);
+		fogTransparencyScale.setMaximum(255);
+		fogTransparencyScale.setPageIncrement(17);
+		fogTransparencyScale.setSelection(store().getInt(MinimapConstants.FOG_TRANSPARENCY));
+
+		GridData scaleData = new GridData(GridData.FILL_HORIZONTAL);
+		scaleData.horizontalSpan = 2;
+		fogTransparencyScale.setLayoutData(scaleData);
+
+		return container;
 	}
 
-//	def private void showColorPicker(ColorWell well) { 
-//		var picker = new ColorPicker()
-//		var original = well.selection
-//		
-//		picker.selection = well.selection
-//		picker.continuosSelectionHandler = [
-//			well.selection = it
-//		]
-//		if(well.getData("lock-hue") == true){
-//			picker.lockHue = true
-//		}
-//
-//		if(picker.open() == IDialogConstants::OK_ID){
-//			well.selection = picker.selection
-//		}else{
-//			well.selection = original
-//		}
-//	}
-//	
-//	override performOk() {
-//		store.setValue(FOG_COLOR, fogColorWell.selection.serialize)
-//		store.setValue(FOG_TRANSPARENCY, fogTransparencyScale.selection)
-//		super.performOk()
-//	}
-//	
-//	override protected performDefaults() {
-//		fogColorWell.selection = HSB::deserialize(store.getDefaultString(FOG_COLOR))
-//		fogTransparencyScale.selection = store.getDefaultInt(FOG_TRANSPARENCY)
-//		super.performDefaults()
-//	}
-//	
-//	def private newColorWell(Composite parent, (ColorWell)=>void initializer) {
-//		var result = new ColorWell(parent, SWT::NORMAL)
-//		initializer.apply(result)
-//		return result;
-//	}
+	private void showColorPicker() {
+		ColorDialog dialog = new ColorDialog(Display.getDefault().getActiveShell());
+		dialog.setRGB(fogColorWell.getBackground().getRGB());
+		dialog.setText("Select a Color");
+		RGB selected = dialog.open();
+		if (selected != null) {
+			fogColorWell.setBackground(new Color(selected));
+		}
+	}
+
+	@Override
+	public boolean performOk() {
+		store().setValue(MinimapConstants.FOG_COLOR, new HSB(fogColorWell.getBackground().getRGB()).serialize());
+		store().setValue(MinimapConstants.FOG_TRANSPARENCY, fogTransparencyScale.getSelection());
+		return super.performOk();
+	}
+
+	@Override
+	protected void performDefaults() {
+		fogColorWell.setBackground(
+				new Color(HSB.deserialize(store().getDefaultString(MinimapConstants.FOG_COLOR)).toRGB()));
+		fogTransparencyScale.setSelection(store().getDefaultInt(MinimapConstants.FOG_TRANSPARENCY));
+		super.performDefaults();
+	}
 
 }

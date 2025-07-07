@@ -27,7 +27,7 @@ public class MinimapView extends PageBookView {
 		Page page = null;
 
 		if (part instanceof MultiPageEditorPart) {
-			page = new MultiPageCrazyPage((MultiPageEditorPart) part);
+			page = new MultiPage((MultiPageEditorPart) part);
 		} else if (part instanceof AbstractTextEditor) {
 			page = new MinimapPage((AbstractTextEditor) part);
 		} else {

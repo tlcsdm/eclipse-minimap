@@ -49,7 +49,7 @@ public class MinimapCanvas extends Canvas
 
 	public UIJob getInvalidateJob() {
 		if (invalidateJob == null) {
-			invalidateJob = new UIJob("invalidate crazy canvas") {
+			invalidateJob = new UIJob("invalidate minimap canvas") {
 				@Override
 				public IStatus runInUIThread(IProgressMonitor monitor) {
 					doInvalidate();
@@ -382,7 +382,7 @@ public class MinimapCanvas extends Canvas
 			return;
 		}
 
-		if (event.getProperty().startsWith("crazy-")) {
+		if (event.getProperty().startsWith("com.tlcsdm.eclipse.minimap.pref")) {
 			invalidate();
 		}
 	}
