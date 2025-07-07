@@ -4,29 +4,17 @@ import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 
 import com.tlcsdm.eclipse.minimap.Activator;
-import com.tlcsdm.eclipse.minimap.util.IFileManagerExecutables;
-import com.tlcsdm.eclipse.minimap.util.OperatingSystem;
-import com.tlcsdm.eclipse.minimap.util.Utils;
+import com.tlcsdm.eclipse.minimap.util.HSB;
+import com.tlcsdm.eclipse.minimap.util.MinimapConstants;
 
-/**
- * @author <a href="mailto:samson959@gmail.com">Samson Wu</a>
- * @version 1.4.0
- */
 public class PreferenceInitializer extends AbstractPreferenceInitializer {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer#
-	 * initializeDefaultPreferences()
-	 */
 	@Override
 	public void initializeDefaultPreferences() {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-		store.setDefault(IPreferenceConstants.LINUX_FILE_MANAGER,
-				OperatingSystem.INSTANCE.isLinux() ? Utils.detectLinuxSystemBrowser()
-						: IFileManagerExecutables.NAUTILUS);
-		store.setDefault(IPreferenceConstants.LINUX_FILE_MANAGER_PATH, "");
+		store.setDefault(MinimapConstants.INVERT_SWIPE_GESTURE, true);
+		store.setDefault(MinimapConstants.FOG_COLOR, new HSB().serialize());
+		store.setDefault(MinimapConstants.FOG_TRANSPARENCY, 10);
 	}
 
 }

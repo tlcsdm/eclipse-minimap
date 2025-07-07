@@ -1,18 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.2"?>
 <plugin>
+    <extension
+         point="org.eclipse.ui.views">
+      <view
+            category="org.eclipse.pde.ui"
+            class="com.tlcsdm.eclipse.minimap.view.MinimapView"
+            icon="icons/icon16.png"
+            id="com.tlcsdm.eclipse.minimap.minimapView"
+            name="Minimap"
+            restorable="true">
+      </view>
+    </extension>
+    <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.pde.ui.PDEPerspective">
+         <viewShortcut
+               id="com.tlcsdm.eclipse.minimap.minimapView">
+         </viewShortcut>
+         <view
+               id="com.tlcsdm.eclipse.minimap.minimapView"
+               minimized="false"
+               relationship="stack"
+               relative="org.eclipse.ui.views.ContentOutline"
+               visible="false">
+         </view>
+      </perspectiveExtension>
+    </extension>
 	<extension point="org.eclipse.ui.preferencePages">
-		<page
-			name="Open Explorer"
-			class="com.tlcsdm.eclipse.minimap.preferences.HomePreferencePage"
-			id="com.tlcsdm.eclipse.minimap.preferences.HomePreferencePage">
-		</page>
-		<page
-			id="com.tlcsdm.eclipse.minimap.preferences.FMPreferencePage"
-			class="com.tlcsdm.eclipse.minimap.preferences.FMPreferencePage"
-			name="File Manager"
-			category="com.tlcsdm.eclipse.minimap.preferences.HomePreferencePage">
-		</page>
+       <page
+            class="com.tlcsdm.eclipse.minimap.preferences.MinimapPreferencePage"
+            id="com.tlcsdm.eclipse.minimap.preferences.minimapPreferencePage"
+            name="Minimap">
+       </page>
 	</extension>
 	<extension point="org.eclipse.core.runtime.preferences">
 		<initializer
