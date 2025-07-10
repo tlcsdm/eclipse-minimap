@@ -114,3 +114,9 @@ a.command-link img {
 	border-style: none;
 	vertical-align: middle;
 }
+img.screenshot {
+  margin-top: 10px;
+	margin-bottom: 20px;
+	margin-left: 10px;
+  border: 1px solid #CCCCCC;
+}

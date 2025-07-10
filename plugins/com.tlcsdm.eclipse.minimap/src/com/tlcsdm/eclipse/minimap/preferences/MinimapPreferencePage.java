@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.ui.PlatformUI;
 
 import com.tlcsdm.eclipse.minimap.Activator;
 import com.tlcsdm.eclipse.minimap.util.HSB;
@@ -64,7 +65,7 @@ public class MinimapPreferencePage extends PreferencePage implements IWorkbenchP
 		GridData scaleData = new GridData(GridData.FILL_HORIZONTAL);
 		scaleData.horizontalSpan = 2;
 		fogTransparencyScale.setLayoutData(scaleData);
-
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, Activator.PLUGIN_ID + ".prefs_minimap");
 		return container;
 	}
 

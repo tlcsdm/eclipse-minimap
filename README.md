@@ -2,6 +2,9 @@
 
 Minimap is a plugin provides awesome way to navigate your source code.
 
+## Use
+![screenshot](https://raw.github.com/tlcsdm/eclipse-minimap/master/plugins/com.tlcsdm.eclipse.minimap/help/images/example.png)
+
 ## Build
 
 This project uses [Tycho](https://github.com/eclipse-tycho/tycho) with [Maven](https://maven.apache.org/) to build. It requires Maven 3.9.0 or higher version.
