@@ -2,6 +2,8 @@
 
 Minimap is a plugin provides awesome way to navigate your source code.
 
+Now Support Eclipse 2024-06 and later, Mac OS X, Linux (with nautilus) and Windows.
+
 ## Use
 ![screenshot](https://raw.github.com/tlcsdm/eclipse-minimap/master/plugins/com.tlcsdm.eclipse.minimap/help/images/example.png)
 
