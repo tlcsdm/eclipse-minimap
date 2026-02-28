@@ -13,7 +13,7 @@ import org.eclipse.ui.texteditor.IDocumentProvider;
 
 public class MinimapPage extends Page {
 
-	private MinimapCanvas crazyView;
+	private MinimapCanvas minimapCanvas;
 	private AbstractTextEditor textEditor;
 	private StyledText widget;
 
@@ -28,7 +28,7 @@ public class MinimapPage extends Page {
 
 		IDocumentProvider documentProvider = textEditor.getDocumentProvider();
 		IEditorInput editorInput = textEditor.getEditorInput();
-		crazyView = new MinimapCanvas(parent, widget, documentProvider.getDocument(editorInput), am);
+		minimapCanvas = new MinimapCanvas(parent, widget, documentProvider.getDocument(editorInput), am);
 
 	}
 
@@ -44,17 +44,12 @@ public class MinimapPage extends Page {
 
 	@Override
 	public Control getControl() {
-		return crazyView;
+		return minimapCanvas;
 	}
 
 	@Override
 	public void setFocus() {
-		crazyView.setFocus();
-	}
-
-	@Override
-	public void dispose() {
-		super.dispose();
+		minimapCanvas.setFocus();
 	}
 
 }
