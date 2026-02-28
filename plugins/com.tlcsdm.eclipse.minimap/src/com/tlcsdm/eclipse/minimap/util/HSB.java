@@ -70,9 +70,7 @@ public class HSB extends LightWeightResource {
 	public static HSB deserialize(String literal) {
 		HSB result = new HSB();
 
-		Scanner scanner = null;
-		try {
-			scanner = new Scanner(literal);
+		try (Scanner scanner = new Scanner(literal)) {
 			scanner.useDelimiter("\\s*,\\s*");
 			scanner.useLocale(Locale.US);
 
@@ -82,17 +80,8 @@ public class HSB extends LightWeightResource {
 		} catch (Exception e) {
 			e.printStackTrace();
 			result = new HSB(0f, 1f, 1f);
-		} finally {
-			if (scanner != null) {
-				scanner.close();
-			}
 		}
 		return result;
-	}
-
-	public static void main(String[] args) {
-		HSB hsb = new HSB(0, 1f, 1f);
-		System.out.println(hsb.shiftHue(380f));
 	}
 
 	public float hue;

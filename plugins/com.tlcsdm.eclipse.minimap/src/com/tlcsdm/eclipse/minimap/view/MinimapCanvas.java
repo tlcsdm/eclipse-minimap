@@ -25,7 +25,6 @@ import org.eclipse.swt.graphics.Transform;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.progress.UIJob;
 
 import com.tlcsdm.eclipse.minimap.Activator;
@@ -75,12 +74,7 @@ public class MinimapCanvas extends Canvas
 
 		hook();
 
-		addListener(SWT.Dispose, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				handleDispose();
-			}
-		});
+		addListener(SWT.Dispose, event -> handleDispose());
 
 		new MinimapDragger(this);
 
@@ -105,18 +99,28 @@ public class MinimapCanvas extends Canvas
 		newSelection.x = textWidget.getHorizontalPixel();
 		newSelection.y = textWidget.getTopPixel();
 
-		int hThumb = textWidget.getHorizontalBar().getThumb();
-		if (hThumb == 1) {
-			newSelection.width = textWidget.getClientArea().width;
+		var hBar = textWidget.getHorizontalBar();
+		if (hBar != null) {
+			int hThumb = hBar.getThumb();
+			if (hThumb == 1) {
+				newSelection.width = textWidget.getClientArea().width;
+			} else {
+				newSelection.width = hThumb;
+			}
 		} else {
-			newSelection.width = hThumb;
+			newSelection.width = textWidget.getClientArea().width;
 		}
 
-		int vThumb = textWidget.getVerticalBar().getThumb();
-		if (vThumb == 1) {
-			newSelection.height = textWidget.getClientArea().height;
+		var vBar = textWidget.getVerticalBar();
+		if (vBar != null) {
+			int vThumb = vBar.getThumb();
+			if (vThumb == 1) {
+				newSelection.height = textWidget.getClientArea().height;
+			} else {
+				newSelection.height = vThumb;
+			}
 		} else {
-			newSelection.height = vThumb;
+			newSelection.height = textWidget.getClientArea().height;
 		}
 
 		setSelection(newSelection, updateTextWidget);
@@ -188,12 +192,7 @@ public class MinimapCanvas extends Canvas
 	private TextLayout getSharedTextLayout() {
 		if (textLayout == null) {
 			textLayout = new TextLayout(getDisplay());
-			addListener(SWT.Dispose, new Listener() {
-				@Override
-				public void handleEvent(Event event) {
-					textLayout.dispose();
-				}
-			});
+			addListener(SWT.Dispose, event -> textLayout.dispose());
 		}
 		return textLayout;
 	}
@@ -201,12 +200,7 @@ public class MinimapCanvas extends Canvas
 	private Transform getSharedTransform() {
 		if (transform == null || transform.isDisposed()) {
 			transform = new Transform(getDisplay());
-			addListener(SWT.Dispose, new Listener() {
-				@Override
-				public void handleEvent(Event event) {
-					transform.dispose();
-				}
-			});
+			addListener(SWT.Dispose, event -> transform.dispose());
 		}
 		return transform;
 	}
@@ -224,35 +218,18 @@ public class MinimapCanvas extends Canvas
 	}
 
 	private void hook() {
-		addListener(SWT.Resize, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				onResize(event);
-			}
-		});
-
-		addListener(SWT.Paint, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				onPaint(event);
-			}
-		});
+		addListener(SWT.Resize, this::onResize);
+		addListener(SWT.Paint, this::onPaint);
 
 		document.addDocumentListener(this);
 
-		textWidget.getVerticalBar().addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				invalidateSelection();
-			}
-		});
+		if (textWidget.getVerticalBar() != null) {
+			textWidget.getVerticalBar().addListener(SWT.Selection, event -> invalidateSelection());
+		}
 
-		textWidget.getHorizontalBar().addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				invalidateSelection();
-			}
-		});
+		if (textWidget.getHorizontalBar() != null) {
+			textWidget.getHorizontalBar().addListener(SWT.Selection, event -> invalidateSelection());
+		}
 
 		if (pam != null)
 			pam.addAnnotationModelListener(this);

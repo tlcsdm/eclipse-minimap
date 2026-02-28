@@ -5,7 +5,6 @@ import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
 
 import com.tlcsdm.eclipse.minimap.Activator;
 import com.tlcsdm.eclipse.minimap.util.MinimapConstants;
@@ -27,43 +26,18 @@ public class MinimapDragger {
 
 	public MinimapDragger(MinimapCanvas canvas) {
 		this.canvas = canvas;
-		canvas.addListener(SWT.MouseDown, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				onMouseDown(event);
-			}
-		});
-		canvas.addListener(SWT.MouseUp, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				onMouseUp(event);
-			}
-		});
-
-		canvas.addListener(SWT.MouseMove, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				onMouseMove(event);
-			}
-		});
-
-		canvas.addListener(SWT.Gesture, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				onGesture(event);
-			}
-		});
+		canvas.addListener(SWT.MouseDown, this::onMouseDown);
+		canvas.addListener(SWT.MouseUp, this::onMouseUp);
+		canvas.addListener(SWT.MouseMove, this::onMouseMove);
+		canvas.addListener(SWT.Gesture, this::onGesture);
 	}
 
 	public Cursor getGrabCursor() {
-		grabCursor = new Cursor(canvas.getDisplay(), Activator.getImageDescriptor("icons/grab.gif").getImageData(100),
-				8, 8);
-		canvas.addListener(SWT.Dispose, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				grabCursor.dispose();
-			}
-		});
+		if (grabCursor == null || grabCursor.isDisposed()) {
+			grabCursor = new Cursor(canvas.getDisplay(),
+					Activator.getImageDescriptor("icons/grab.gif").getImageData(100), 8, 8);
+			canvas.addListener(SWT.Dispose, event -> grabCursor.dispose());
+		}
 		return grabCursor;
 	}
 
@@ -71,12 +45,7 @@ public class MinimapDragger {
 		if (handCursor == null || handCursor.isDisposed()) {
 			handCursor = new Cursor(canvas.getDisplay(),
 					Activator.getImageDescriptor("icons/hand.gif").getImageData(100), 8, 8);
-			canvas.addListener(SWT.Dispose, new Listener() {
-				@Override
-				public void handleEvent(Event event) {
-					handCursor.dispose();
-				}
-			});
+			canvas.addListener(SWT.Dispose, event -> handCursor.dispose());
 		}
 		return handCursor;
 	}

@@ -53,11 +53,10 @@ public class MultiPage extends Page implements IPageChangedListener {
 			return;
 		}
 
-		if (page instanceof AbstractTextEditor) {
-			AbstractTextEditor textEditor = (AbstractTextEditor) page;
-			MinimapPage crazyPage = new MinimapPage(textEditor);
-			crazyPage.createControl(pageBook);
-			Control canvas = crazyPage.getControl();
+		if (page instanceof AbstractTextEditor textEditor) {
+			MinimapPage minimapPage = new MinimapPage(textEditor);
+			minimapPage.createControl(pageBook);
+			Control canvas = minimapPage.getControl();
 			canvasMap.put(page, canvas);
 			pageBook.showPage(canvas);
 		} else {
@@ -68,6 +67,7 @@ public class MultiPage extends Page implements IPageChangedListener {
 
 	@Override
 	public void dispose() {
+		multiPageEditor.removePageChangedListener(this);
 		super.dispose();
 	}
 

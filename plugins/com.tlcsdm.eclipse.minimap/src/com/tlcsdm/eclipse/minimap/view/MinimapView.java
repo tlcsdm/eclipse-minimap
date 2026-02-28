@@ -53,10 +53,9 @@ public class MinimapView extends PageBookView {
 
 	@Override
 	protected boolean isImportant(IWorkbenchPart part) {
-		if (!(part instanceof IEditorPart)) {
+		if (!(part instanceof IEditorPart editor)) {
 			return false;
 		}
-		IEditorPart editor = (IEditorPart) part;
 		return editor instanceof AbstractTextEditor || editor instanceof MultiPageEditorPart;
 	}
 
