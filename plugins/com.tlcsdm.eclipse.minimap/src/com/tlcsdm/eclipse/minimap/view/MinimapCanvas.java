@@ -99,8 +99,9 @@ public class MinimapCanvas extends Canvas
 		newSelection.x = textWidget.getHorizontalPixel();
 		newSelection.y = textWidget.getTopPixel();
 
-		if (textWidget.getHorizontalBar() != null) {
-			int hThumb = textWidget.getHorizontalBar().getThumb();
+		var hBar = textWidget.getHorizontalBar();
+		if (hBar != null) {
+			int hThumb = hBar.getThumb();
 			if (hThumb == 1) {
 				newSelection.width = textWidget.getClientArea().width;
 			} else {
@@ -110,8 +111,9 @@ public class MinimapCanvas extends Canvas
 			newSelection.width = textWidget.getClientArea().width;
 		}
 
-		if (textWidget.getVerticalBar() != null) {
-			int vThumb = textWidget.getVerticalBar().getThumb();
+		var vBar = textWidget.getVerticalBar();
+		if (vBar != null) {
+			int vThumb = vBar.getThumb();
 			if (vThumb == 1) {
 				newSelection.height = textWidget.getClientArea().height;
 			} else {
