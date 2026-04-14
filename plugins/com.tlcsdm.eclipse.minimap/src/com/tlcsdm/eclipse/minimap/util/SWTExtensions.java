@@ -1411,16 +1411,16 @@ public class SWTExtensions {
 	}
 
 	public Point scale(Point p, double scale) {
-		p.x *= scale;
-		p.y *= scale;
+		p.x = (int) (p.x * scale);
+		p.y = (int) (p.y * scale);
 		return p;
 	}
 
 	public Rectangle scale(Rectangle p, double scale) {
-		p.x *= scale;
-		p.y *= scale;
-		p.width *= scale;
-		p.height *= scale;
+		p.x = (int) (p.x * scale);
+		p.y = (int) (p.y * scale);
+		p.width = (int) (p.width * scale);
+		p.height = (int) (p.height * scale);
 		return p;
 	}
 
